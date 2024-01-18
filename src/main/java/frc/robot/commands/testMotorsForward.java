@@ -4,20 +4,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Test;
 
 
-public class testMotor2Stop extends Command {
+public class testMotorsForward extends Command {
 
 
     /**
      * an instance of {@link frc.robot.subsystems.Test}
      */
+    private final Test testMotor1;
     private final Test testMotor2;
-    
 
     /**
-     * @param testMotor2 an instance of {@link frc.robot.subsystems.Test}
+     * @param testMotor1 an instance of {@link frc.robot.subsystems.Test}
      */
-    public testMotor2Stop(Test testMotor2) {
+    public testMotorsForward(Test testMotor1, Test testMotor2) {
+        this.testMotor1 = testMotor1;
         this.testMotor2 = testMotor2;
+        addRequirements(testMotor1);
         addRequirements(testMotor2);
     }
 
@@ -32,7 +34,8 @@ public class testMotor2Stop extends Command {
      */
     @Override
     public void execute() {
-        this.testMotor2.testMotor2Stop();
+        this.testMotor1.testMotor1Backward();
+        this.testMotor2.testMotor2Forward();
     }
 
 

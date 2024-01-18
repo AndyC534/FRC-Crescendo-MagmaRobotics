@@ -10,12 +10,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.testMotor1Backward;
-import frc.robot.commands.testMotor1Forward;
-import frc.robot.commands.testMotor1Stop;
-import frc.robot.commands.testMotor2Backward;
-import frc.robot.commands.testMotor2Forward;
-import frc.robot.commands.testMotor2Stop;
+import frc.robot.commands.testMotorsBackward;
+import frc.robot.commands.testMotorsForward;
+import frc.robot.commands.testMotorsStop;
+import frc.robot.commands.drive.DriveTrainCommand;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Test;
 
 
@@ -26,9 +25,9 @@ import frc.robot.subsystems.Test;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-
     
     // The robot's subsystems and commands are defined here... 
+    DriveTrain driveTrain;
     Test Test;
 
     XboxController driverController, driverPartnerController;
@@ -54,7 +53,9 @@ public class RobotContainer {
         this.downPOV = new POVButton(driverPartnerController, Constants.Control.POVButton.kDOWN);
         this.leftPOV = new POVButton(driverPartnerController, Constants.Control.POVButton.kLEFT);
         this.rightPOV = new POVButton(driverPartnerController, Constants.Control.POVButton.kRIGHT);
-      
+        
+        this.driveTrain.setDefaultCommand(new DriveTrainCommand(this.driveTrain, this.driverController));
+
         
         // Configure the trigger bindings
         this.configureBindings();
@@ -72,10 +73,8 @@ public class RobotContainer {
      */
     private void configureBindings() {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        this.downPOV.onTrue(new testMotor1Forward(this.Test, this.Test)).onFalse(new testMotor1Stop(this.Test, this.Test));
-        this.upPOV.onTrue(new testMotor1Backward(this.Test, this.Test)).onFalse(new testMotor1Stop(this.Test, this.Test));
-        this.buttonA.onTrue(new testMotor2Forward(this.Test)).onFalse(new testMotor2Stop(this.Test));
-        this.buttonY.onTrue(new testMotor2Backward(this.Test)).onFalse(new testMotor2Stop(this.Test));
+        this.upPOV.onTrue(new testMotorsForward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
+        this.downPOV.onTrue(new testMotorsBackward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
 
     }
 
