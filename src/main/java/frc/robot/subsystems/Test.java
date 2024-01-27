@@ -24,8 +24,8 @@ public class Test extends SubsystemBase {
      * subsystem base object for arm
      */
     public Test() {
-        this.testMotor1 = new CANSparkMax(56, MotorType.kBrushless);
-        this.testMotor2 = new CANSparkMax(42, MotorType.kBrushless);
+        this.testMotor1 = new CANSparkMax(11, MotorType.kBrushless);
+        this.testMotor2 = new CANSparkMax(10, MotorType.kBrushless);
         
     }
 

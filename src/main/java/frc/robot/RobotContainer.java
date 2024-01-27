@@ -36,10 +36,11 @@ public class RobotContainer {
     
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        this.driveTrain = new DriveTrain();
         this.Test = new Test();
 
-        this.driverController = new XboxController(Constants.Control.kDRIVER);
-        this.driverPartnerController = new XboxController(Constants.Control.kPARTNER);
+        this.driverController = new XboxController(Constants.Control.ControllerPort.kDRIVER);
+        this.driverPartnerController = new XboxController(Constants.Control.ControllerPort.kPARTNER);
         
         this.driverRightBumper = new JoystickButton(driverController, Constants.Control.Button.kRIGHT_BUMPER);
 

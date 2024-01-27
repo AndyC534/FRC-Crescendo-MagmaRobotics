@@ -18,8 +18,10 @@ public class Constants {
 
     public static class Control {
 
-      public static final int kDRIVER = 1;
-      public static final int kPARTNER = 0; 
+        public static class ControllerPort {
+            public static final int kDRIVER = 0;
+            public static final int kPARTNER = 1; 
+        }
 
         public static class JoystickController {
             public static final int kPOSITION = 1;
@@ -55,7 +57,36 @@ public class Constants {
 
 
     public static class Subsystems{
-      public static final double kPOWER = 1;
+        public static final double kPOWER = 0.5;
+
+        public static final class DriveTrain {
+            public static final int kLEFT = 6;
+            public static final int kRIGHT = 5;
+    
+        }
+
+        public static class LowerArm {
+            public static final double kPOWER = 0.5;
+            public static final int kPORT = 3;
+        }
+
+        public static class LowerArm2 {
+            public static final double kPOWER = 0.5;
+            public static final int kPORT = 2;
+        }
+
+        public static class UpperMiddleArm{
+            public static final double kPOWER = 0.5;
+            public static final int kPORT = 1;
+        }
+
+        public static class Claw {
+            public static final double IntakekPOWER = 0.7;
+            public static final double OuttakekPOWER = 1;
+            public static final double kCloseLimit = 0;
+            public static final double kOpenLimit = 300;
+        }
+
     }
 
 
