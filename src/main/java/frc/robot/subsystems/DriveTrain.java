@@ -37,20 +37,21 @@ public class DriveTrain extends SubsystemBase {
 
         this.frontLeftDriveMotor = new CANSparkMax(1, MotorType.kBrushless);
         this.rearLeftDriveMotor = new CANSparkMax(2, MotorType.kBrushless);
-        this.frontLeftDriveMotor.restoreFactoryDefaults();
-        this.rearLeftDriveMotor.restoreFactoryDefaults();
-        rearLeftDriveMotor.follow(frontLeftDriveMotor, true);
-        this.frontLeftDriveMotor.burnFlash();
-        this.rearLeftDriveMotor.burnFlash();
-        this.frontLeftDriveMotor.
-
         this.frontRightDriveMotor = new CANSparkMax(3, MotorType.kBrushless);
         this.rearRightDriveMotor = new CANSparkMax(4, MotorType.kBrushless);
+
+        this.frontLeftDriveMotor.restoreFactoryDefaults();
+        this.rearLeftDriveMotor.restoreFactoryDefaults();
         this.frontRightDriveMotor.restoreFactoryDefaults();
         this.rearRightDriveMotor.restoreFactoryDefaults();
+        rearRightDriveMotor.follow(frontRightDriveMotor);
+        rearLeftDriveMotor.follow(frontLeftDriveMotor);
+        this.frontLeftDriveMotor.burnFlash();
+        this.rearLeftDriveMotor.burnFlash();
         this.frontRightDriveMotor.burnFlash();
         this.rearRightDriveMotor.burnFlash();
-        rearRightDriveMotor.follow(frontRightDriveMotor);
+
+
 
         this.diffDrive = new DifferentialDrive(this.frontLeftDriveMotor, this.frontRightDriveMotor);
 

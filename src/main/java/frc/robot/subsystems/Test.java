@@ -17,7 +17,7 @@ public class Test extends SubsystemBase {
     /**
      * an abstract representation of a physical robot arm
      */
-    private CANSparkMax testMotor1, testMotor2;
+    private CANSparkMax testMotor1, testMotor2, testMotor3;
 
   
     /**
@@ -26,6 +26,7 @@ public class Test extends SubsystemBase {
     public Test() {
         this.testMotor1 = new CANSparkMax(11, MotorType.kBrushless);
         this.testMotor2 = new CANSparkMax(10, MotorType.kBrushless);
+        this.testMotor3 = new CANSparkMax(12, MotorType.kBrushless);
         
     }
 
@@ -78,7 +79,29 @@ public class Test extends SubsystemBase {
         this.testMotor2.stopMotor();
     }
 
+    public void testMotor3Forward() {
+        this.testMotor3.set(Constants.Subsystems.kPOWER);
+    }
+
+
+     /**
+     * second arm goes down by setting power on the arm motor
+     */
+    public void testMotor3Backward() {
+        this.testMotor3.set(-Constants.Subsystems.kPOWER);
+    }
+
+
+    /**
+     * calls stopMotor method within {@link edu.wpi.first.wpilibj.drive.DifferentialDrive}
+     * to stop second motors
+     */
+    public void testMotor3Stop() {
+        this.testMotor3.stopMotor();
+    }
+
     public void stopAll(){
+        this.testMotor3.stopMotor();
         this.testMotor2.stopMotor();
         this.testMotor1.stopMotor();
     }

@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.testMotor3Backward;
+import frc.robot.commands.testMotor3Forward;
+import frc.robot.commands.testMotor3Stop;
 import frc.robot.commands.testMotorsBackward;
 import frc.robot.commands.testMotorsForward;
 import frc.robot.commands.testMotorsStop;
@@ -76,7 +79,8 @@ public class RobotContainer {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         this.upPOV.onTrue(new testMotorsForward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
         this.downPOV.onTrue(new testMotorsBackward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
-
+        this.rightPOV.onTrue(new testMotor3Backward(this.Test)).onFalse(new testMotor3Stop(this.Test));
+        this.rightPOV.onTrue(new testMotor3Forward(this.Test)).onFalse(new testMotor3Stop(this.Test));
     }
 
 
