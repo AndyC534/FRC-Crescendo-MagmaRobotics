@@ -17,6 +17,8 @@ import frc.robot.commands.testMotorsBackward;
 import frc.robot.commands.testMotorsForward;
 import frc.robot.commands.testMotorsStop;
 import frc.robot.commands.drive.DriveTrainCommand;
+import frc.robot.commands.drive.DriveTrainStop;
+import frc.robot.commands.drive.LimeLightDriveTrainCommandTEST;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Test;
 
@@ -77,10 +79,11 @@ public class RobotContainer {
      */
     private void configureBindings() {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        this.upPOV.onTrue(new testMotorsForward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
-        this.downPOV.onTrue(new testMotorsBackward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
+        this.rightBumper.onTrue(new testMotorsForward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
+        this.leftBumper.onTrue(new testMotorsBackward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
         this.rightPOV.onTrue(new testMotor3Backward(this.Test)).onFalse(new testMotor3Stop(this.Test));
-        this.rightPOV.onTrue(new testMotor3Forward(this.Test)).onFalse(new testMotor3Stop(this.Test));
+        this.leftPOV.onTrue(new testMotor3Forward(this.Test)).onFalse(new testMotor3Stop(this.Test));
+        this.buttonX.onTrue(new LimeLightDriveTrainCommandTEST(driveTrain)).onFalse(new DriveTrainStop(driveTrain));
     }
 
 

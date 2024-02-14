@@ -1,27 +1,24 @@
 package frc.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveTrain;
 
 
-public class DriveTrainCommand extends Command {
+public class DriveTrainStop extends Command {
 
 
     /**
      * an instance of {@link frc.robot.subsystems.DriveTrain}
      */
     private final DriveTrain driveTrain;
-    private final XboxController driveController;
 
 
     /**
      * @param driveTrain an instance of {@link frc.robot.subsystems.DriveTrain}
      * @param driveController an instance of {@link edu.wpi.first.wpilibj.XboxController}
      */
-    public DriveTrainCommand(DriveTrain driveTrain, XboxController driveController){
+    public DriveTrainStop(DriveTrain driveTrain){
         this.driveTrain = driveTrain;
-        this.driveController = driveController;
         addRequirements(driveTrain);
     }
     
@@ -38,9 +35,7 @@ public class DriveTrainCommand extends Command {
     @Override
 
     public void execute() {
-        this.driveTrain.diffDrive(
-            this.driveController.getRightY()*0.7,
-            this.driveController.getLeftY()*0.7);     
+        this.driveTrain.diffDrive(0,0);     
     }
     
 

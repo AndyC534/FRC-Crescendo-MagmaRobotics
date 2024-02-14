@@ -35,14 +35,14 @@ public class Test extends SubsystemBase {
      * arm goes up by setting power on the arm motor
      */
     public void testMotor1Forward() {
-        this.testMotor1.set(Constants.Subsystems.kPOWER);
+        this.testMotor1.set(Constants.Subsystems.kPOWER08);
     }
 
     /**
      * arm goes down by setting power on the arm motor
      */
     public void testMotor1Backward() {
-        this.testMotor1.set(-Constants.Subsystems.kPOWER);
+        this.testMotor1.set(-Constants.Subsystems.kPOWER08);
     }
 
 
@@ -59,7 +59,7 @@ public class Test extends SubsystemBase {
      * second arm goes up by setting power on the arm motor
      */
     public void testMotor2Forward() {
-        this.testMotor2.set(Constants.Subsystems.kPOWER);
+        this.testMotor2.set(Constants.Subsystems.kPOWER08);
     }
 
 
@@ -67,7 +67,7 @@ public class Test extends SubsystemBase {
      * second arm goes down by setting power on the arm motor
      */
     public void testMotor2Backward() {
-        this.testMotor2.set(-Constants.Subsystems.kPOWER);
+        this.testMotor2.set(-Constants.Subsystems.kPOWER08);
     }
 
 
@@ -88,7 +88,7 @@ public class Test extends SubsystemBase {
      * second arm goes down by setting power on the arm motor
      */
     public void testMotor3Backward() {
-        this.testMotor3.set(-Constants.Subsystems.kPOWER);
+        this.testMotor3.set(-Constants.Subsystems.kPOWER05);
     }
 
 
