@@ -25,6 +25,7 @@ import frc.robot.commands.shooter.ShooterForward;
 import frc.robot.commands.shooter.ShooterStop;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Shooter;
 
 
@@ -40,7 +41,8 @@ public class RobotContainer {
     DriveTrain driveTrain;
     Shooter Shooter;
     Intake Intake;
-    private SendableChooser<Command> m_auto_chooser;
+    Lift Lift;
+    SendableChooser<Command> m_auto_chooser;
 
 
     XboxController driverController, driverPartnerController;
@@ -52,6 +54,7 @@ public class RobotContainer {
         this.driveTrain = new DriveTrain();
         this.Shooter = new Shooter();
         this.Intake = new Intake();
+        this.Lift = new Lift();
 
         this.driverController = new XboxController(Constants.Control.ControllerPort.kDRIVER);
         this.driverPartnerController = new XboxController(Constants.Control.ControllerPort.kPARTNER);
