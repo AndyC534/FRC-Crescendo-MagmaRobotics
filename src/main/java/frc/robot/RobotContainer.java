@@ -5,20 +5,27 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.testMotor3Backward;
-import frc.robot.commands.testMotor3Forward;
-import frc.robot.commands.testMotor3Stop;
-import frc.robot.commands.testMotorsBackward;
-import frc.robot.commands.testMotorsForward;
-import frc.robot.commands.testMotorsStop;
+import frc.robot.commands.autos.simples.DriveTrainAuto;
 import frc.robot.commands.drive.DriveTrainCommand;
+import frc.robot.commands.intake.IntakeBackward;
+import frc.robot.commands.intake.IntakeForward;
+import frc.robot.commands.intake.IntakeStop;
+import frc.robot.commands.shooter.ShooterBackward;
+import frc.robot.commands.shooter.ShooterForward;
+import frc.robot.commands.shooter.ShooterStop;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Test;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 
 /**
@@ -31,7 +38,10 @@ public class RobotContainer {
     
     // The robot's subsystems and commands are defined here... 
     DriveTrain driveTrain;
-    Test Test;
+    Shooter Shooter;
+    Intake Intake;
+    private SendableChooser<Command> m_auto_chooser;
+
 
     XboxController driverController, driverPartnerController;
     JoystickButton buttonA, buttonB, buttonX, buttonY, rightBumper, leftBumper, driverRightBumper;
@@ -40,7 +50,8 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         this.driveTrain = new DriveTrain();
-        this.Test = new Test();
+        this.Shooter = new Shooter();
+        this.Intake = new Intake();
 
         this.driverController = new XboxController(Constants.Control.ControllerPort.kDRIVER);
         this.driverPartnerController = new XboxController(Constants.Control.ControllerPort.kPARTNER);
@@ -60,7 +71,7 @@ public class RobotContainer {
         
         this.driveTrain.setDefaultCommand(new DriveTrainCommand(this.driveTrain, this.driverController));
 
-        
+        buildShuffleboard();
         // Configure the trigger bindings
         this.configureBindings();
     }
@@ -77,10 +88,10 @@ public class RobotContainer {
      */
     private void configureBindings() {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        this.upPOV.onTrue(new testMotorsForward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
-        this.downPOV.onTrue(new testMotorsBackward(this.Test, this.Test)).onFalse(new testMotorsStop(this.Test, this.Test));
-        this.rightPOV.onTrue(new testMotor3Backward(this.Test)).onFalse(new testMotor3Stop(this.Test));
-        this.rightPOV.onTrue(new testMotor3Forward(this.Test)).onFalse(new testMotor3Stop(this.Test));
+        this.upPOV.onTrue(new ShooterForward(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter));
+        this.downPOV.onTrue(new ShooterBackward(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter));
+        this.rightPOV.onTrue(new IntakeForward(this.Intake)).onFalse(new IntakeStop(this.Intake));
+        this.leftPOV.onTrue(new IntakeBackward(this.Intake)).onFalse(new IntakeStop(this.Intake));
     }
 
 
@@ -90,10 +101,19 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return null;
-        
-        //Just edit the times and power
-      }
+        return m_auto_chooser.getSelected();        
+    }
 
+    private void buildShuffleboard(){
+        buildDriverTab();
+    }
+    
+    private void buildDriverTab(){
+        ShuffleboardTab driveTab = Shuffleboard.getTab("Drive");
+        m_auto_chooser = new SendableChooser<Command>();
+        m_auto_chooser.setDefaultOption("Drive 0.5", new SequentialCommandGroup(new DriveTrainAuto(this.driveTrain, 10000, 0.5, 0.5)));
+        m_auto_chooser.setDefaultOption("Drive 1", new DriveTrainAuto(this.driveTrain, 10000, 1, 1));
+        driveTab.add("Autonomous Chooser", m_auto_chooser).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2, 1);
+    }
 
 }

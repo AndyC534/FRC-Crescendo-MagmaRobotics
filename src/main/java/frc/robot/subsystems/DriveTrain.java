@@ -18,11 +18,11 @@ public class DriveTrain extends SubsystemBase {
      * an abstract representation of a physical drive motor
      */
 
-    private CANSparkMax frontLeftDriveMotor;
-    private CANSparkMax rearLeftDriveMotor;
-    private CANSparkMax frontRightDriveMotor;
-    private CANSparkMax rearRightDriveMotor;
-
+     private CANSparkMax frontLeftDriveMotor;
+     private CANSparkMax rearLeftDriveMotor;
+     private CANSparkMax frontRightDriveMotor;
+     private CANSparkMax rearRightDriveMotor;
+  
     /**
      * an abstract representation of a drive base
      */
@@ -44,8 +44,10 @@ public class DriveTrain extends SubsystemBase {
         this.rearLeftDriveMotor.restoreFactoryDefaults();
         this.frontRightDriveMotor.restoreFactoryDefaults();
         this.rearRightDriveMotor.restoreFactoryDefaults();
+
         rearRightDriveMotor.follow(frontRightDriveMotor);
         rearLeftDriveMotor.follow(frontLeftDriveMotor);
+        
         this.frontLeftDriveMotor.burnFlash();
         this.rearLeftDriveMotor.burnFlash();
         this.frontRightDriveMotor.burnFlash();

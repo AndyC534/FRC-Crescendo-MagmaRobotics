@@ -58,48 +58,6 @@ public class Constants {
 
     public static class Subsystems{
         public static final double kPOWER = 0.5;
-
-        public static final class DriveTrain {
-            public static final int kLEFT = 6;
-            public static final int kRIGHT = 5;
-    
-        }
-
-        public static class LowerArm {
-            public static final double kPOWER = 0.5;
-            public static final int kPORT = 3;
-        }
-
-        public static class LowerArm2 {
-            public static final double kPOWER = 0.5;
-            public static final int kPORT = 2;
-        }
-
-        public static class UpperMiddleArm{
-            public static final double kPOWER = 0.5;
-            public static final int kPORT = 1;
-        }
-
-        public static class Claw {
-            public static final double IntakekPOWER = 0.7;
-            public static final double OuttakekPOWER = 1;
-            public static final double kCloseLimit = 0;
-            public static final double kOpenLimit = 300;
-        }
-
-    }
-
-
-
-    public static class PIDController {
-
-        public static class BalancePID {
-            public static final int kSetpoint = 0;
-            public static final double kP = 0.1;
-            public static final double kI = 0.0;
-            public static final double kD = 0.25;
-        }
-
     }
 
 

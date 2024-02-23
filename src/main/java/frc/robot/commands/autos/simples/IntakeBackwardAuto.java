@@ -1,22 +1,21 @@
-package frc.robot.commands.drive;
+package frc.robot.commands.autos.simples;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 
 
-public class DriveTrainAuto extends Command {
+public class IntakeBackwardAuto extends Command {
 
 
-    private double leftpower, rightpower, duration;
-    private DriveTrain driveTrain;
+    private double power, duration;
+    private Intake Intake;
 
 
-    public DriveTrainAuto(DriveTrain driveTrain, double duration, double leftpower, double rightpower) {
-        this.driveTrain = driveTrain;
+    public IntakeBackwardAuto(Intake Intake, double duration, double power, double rightpower) {
+        this.Intake = Intake;
         this.duration = duration;
-        this.leftpower = leftpower;
-        this.rightpower = rightpower;
-        addRequirements(driveTrain);
+        this.power = power;
+        addRequirements(Intake);
     }
 
 
@@ -30,7 +29,7 @@ public class DriveTrainAuto extends Command {
 
     // called repeatedly when this Command is scheduled to run
     public void execute() {
-        this.driveTrain.diffDrive(this.leftpower,this.rightpower);
+        this.Intake.IntakeBackwardAuto(power);
     }
 
 
@@ -44,7 +43,7 @@ public class DriveTrainAuto extends Command {
     // called once after isFinished returns true
     // drive train is stopped
     protected void end() {
-        this.driveTrain.stop();
+        this.Intake.IntakeStop();
     }
 
 
