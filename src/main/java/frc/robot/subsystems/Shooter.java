@@ -78,31 +78,19 @@ public class Shooter extends SubsystemBase {
         this.ShooterMotor2.stopMotor();
     }
 
-    public void ShooterMotor1ForwardAuto(double power) {
-        this.ShooterMotor1.set(power);
+    public void ShooterMotor1ForwardAuto(double n) {
+        this.ShooterMotor1.set(n);
     }
 
-    public void ShooterMotor1BackwardAuto(double power) {
-        this.ShooterMotor1.set(-power);
+    public void ShooterMotor1BackwardAuto(double n) {
+        this.ShooterMotor1.set(-n);
     }
 
-    public void ShooterMotor2ForwardAuto(double power) {
-        this.ShooterMotor2.set(power);
+    public void ShooterMotor2ForwardAuto(double n) {
+        this.ShooterMotor2.set(n);
     }
 
-    public void ShooterMotor2BackwardAuto(double power) {
-        this.ShooterMotor2.set(-power);
-    }
-
-
-    /**
-     * calls stopMotor method within {@link edu.wpi.first.wpilibj.drive.DifferentialDrive}
-     * to stop second motors
-     */
-
-
-    public void ShooterStopAll() {
-        this.ShooterMotor1.stopMotor();
-        this.ShooterMotor2.stopMotor();
+    public void ShooterMotor2BackwardAuto(double n) {
+        this.ShooterMotor2.set(-n);
     }
 }

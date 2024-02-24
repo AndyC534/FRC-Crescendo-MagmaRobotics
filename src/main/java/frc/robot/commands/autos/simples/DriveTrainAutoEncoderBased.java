@@ -1,21 +1,21 @@
 package frc.robot.commands.autos.simples;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.DriveTrain;
 
 
-public class IntakeForwardAuto extends Command {
+public class DriveTrainAutoEncoderBased extends Command {
 
 
     private double power, duration;
-    private Intake Intake;
+    private DriveTrain driveTrain;
 
 
-    public IntakeForwardAuto(Intake Intake, double duration, double power) {
-        this.Intake = Intake;
+    public DriveTrainAutoEncoderBased(DriveTrain driveTrain, double duration, double power) {
+        this.driveTrain = driveTrain;
         this.duration = duration;
         this.power = power;
-        addRequirements(Intake);
+        addRequirements(driveTrain);
     }
 
 
@@ -29,7 +29,7 @@ public class IntakeForwardAuto extends Command {
 
     // called repeatedly when this Command is scheduled to run
     public void execute() {
-        this.Intake.IntakeForwardAuto(power);
+        this.driveTrain.diffDrive(this.power,this.power);
     }
 
 
@@ -43,9 +43,9 @@ public class IntakeForwardAuto extends Command {
     // called once after isFinished returns true
     // drive train is stopped
     protected void end() {
-        this.Intake.IntakeStop();
+        this.driveTrain.stop();
     }
- 
+
 
     protected void interrupted() {
         this.end();

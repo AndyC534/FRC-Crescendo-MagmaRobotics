@@ -4,18 +4,21 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 
-public class ShooterMotor1ForwardAuto extends Command {
+public class ShooterForwardAuto extends Command {
 
 
     private double power, duration;
-    private final Shooter ShooterMotor1;
+    private final Shooter ShooterMotor1, ShooterMotor2;
 
 
-    public ShooterMotor1ForwardAuto(Shooter ShooterMotor1, double duration, double power, double rightpower) {
+    public ShooterForwardAuto(Shooter ShooterMotor1, Shooter ShooterMotor2, double duration, double power) {
         this.ShooterMotor1 = ShooterMotor1;
+        this.ShooterMotor2 = ShooterMotor2;
         this.duration = duration;
         this.power = power;
         addRequirements(ShooterMotor1);
+        addRequirements(ShooterMotor2);
+
     }
 
 
@@ -29,7 +32,8 @@ public class ShooterMotor1ForwardAuto extends Command {
 
     // called repeatedly when this Command is scheduled to run
     public void execute() {
-        this.ShooterMotor1.ShooterMotor1ForwardAuto(power);
+        this.ShooterMotor1.ShooterMotor1ForwardAuto(this.power);
+        this.ShooterMotor2.ShooterMotor2BackwardAuto(this.power);
     }
 
 
@@ -44,6 +48,7 @@ public class ShooterMotor1ForwardAuto extends Command {
     // drive train is stopped
     protected void end() {
         this.ShooterMotor1.ShooterMotor1Stop();
+        this.ShooterMotor2.ShooterMotor2Stop();
     }
 
 

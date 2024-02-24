@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveTrain;
 
 
-public class DriveTrainAuto extends Command {
+public class DriveTrainAutoTimeBased extends Command {
 
 
     private double leftpower, rightpower, duration;
     private DriveTrain driveTrain;
 
 
-    public DriveTrainAuto(DriveTrain driveTrain, double duration, double leftpower, double rightpower) {
+    public DriveTrainAutoTimeBased(DriveTrain driveTrain, double duration, double leftpower, double rightpower) {
         this.driveTrain = driveTrain;
         this.duration = duration;
         this.leftpower = leftpower;

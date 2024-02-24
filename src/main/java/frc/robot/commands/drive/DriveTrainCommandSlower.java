@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveTrain;
 
 
-public class DriveTrainCommand extends Command {
+public class DriveTrainCommandSlower extends Command {
 
 
     /**
@@ -19,7 +19,7 @@ public class DriveTrainCommand extends Command {
      * @param driveTrain an instance of {@link frc.robot.subsystems.DriveTrain}
      * @param driveController an instance of {@link edu.wpi.first.wpilibj.XboxController}
      */
-    public DriveTrainCommand(DriveTrain driveTrain, XboxController driveController){
+    public DriveTrainCommandSlower(DriveTrain driveTrain, XboxController driveController){
         this.driveTrain = driveTrain;
         this.driveController = driveController;
         addRequirements(driveTrain);
@@ -39,8 +39,8 @@ public class DriveTrainCommand extends Command {
 
     public void execute() {
         this.driveTrain.diffDrive(
-            this.driveController.getRightY()*.7, 
-            this.driveController.getLeftY()*.7);     
+            this.driveController.getRightY()*.5, 
+            this.driveController.getLeftY()*.5);     
     }
     
 

@@ -11,7 +11,7 @@ public class LiftUpAuto extends Command {
     private Lift Lift;
 
 
-    public LiftUpAuto(Lift Lift, double duration, double power, double rightpower) {
+    public LiftUpAuto(Lift Lift, double duration, double power) {
         this.Lift = Lift;
         this.duration = duration;
         this.power = power;
@@ -29,7 +29,7 @@ public class LiftUpAuto extends Command {
 
     // called repeatedly when this Command is scheduled to run
     public void execute() {
-        this.Lift.LiftUpAuto(power);
+        this.Lift.LiftUpAuto(this.power);
     }
 
 

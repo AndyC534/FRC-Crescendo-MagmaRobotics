@@ -11,7 +11,7 @@ public class IntakeBackwardAuto extends Command {
     private Intake Intake;
 
 
-    public IntakeBackwardAuto(Intake Intake, double duration, double power, double rightpower) {
+    public IntakeBackwardAuto(Intake Intake, double duration, double power) {
         this.Intake = Intake;
         this.duration = duration;
         this.power = power;
@@ -29,7 +29,7 @@ public class IntakeBackwardAuto extends Command {
 
     // called repeatedly when this Command is scheduled to run
     public void execute() {
-        this.Intake.IntakeBackwardAuto(power);
+        this.Intake.IntakeBackwardAuto(this.power);
     }
 
 

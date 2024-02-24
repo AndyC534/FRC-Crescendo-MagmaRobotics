@@ -30,7 +30,7 @@ public class IntakeForward extends Command {
      */
     @Override
     public void execute() {
-        this.Intake.IntakeBackward();
+        this.Intake.IntakeForward();
     }
 
 

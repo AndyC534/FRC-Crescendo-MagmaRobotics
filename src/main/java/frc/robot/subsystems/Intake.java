@@ -25,6 +25,8 @@ public class Intake extends SubsystemBase {
      */
     public Intake() {
         this.Intake = new CANSparkMax(12, MotorType.kBrushless);
+        this.Intake.restoreFactoryDefaults();
+        this.Intake.burnFlash();
         
     }
 
@@ -50,19 +52,19 @@ public class Intake extends SubsystemBase {
      * to stop second motors
      */
     public void IntakeStop() {
-        this.Intake.stopMotor();
+        this.Intake.set(0);
     }
 
-    public void IntakeForwardAuto(double power) {
-        this.Intake.set(power);
+    public void IntakeForwardAuto(double n) {
+        this.Intake.set(n);
     }
 
 
      /**
      * second arm goes down by setting power on the arm motor
      */
-    public void IntakeBackwardAuto(double power) {
-        this.Intake.set(-power);
+    public void IntakeBackwardAuto(double n) {
+        this.Intake.set(-n);
     }
   
 }
