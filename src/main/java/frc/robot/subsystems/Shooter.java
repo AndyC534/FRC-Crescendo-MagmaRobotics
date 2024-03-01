@@ -34,14 +34,14 @@ public class Shooter extends SubsystemBase {
      * arm goes up by setting power on the arm motor
      */
     public void ShooterMotor1Forward() {
-        this.ShooterMotor1.set(Constants.Subsystems.kPOWER);
+        this.ShooterMotor1.set(Constants.Subsystems.Shooter.kPOWER);
     }
 
     /**
      * arm goes down by setting power on the arm motor
      */
     public void ShooterMotor1Backward() {
-        this.ShooterMotor1.set(-Constants.Subsystems.kPOWER);
+        this.ShooterMotor1.set(-Constants.Subsystems.Shooter.kPOWER);
     }
 
 
@@ -54,43 +54,41 @@ public class Shooter extends SubsystemBase {
     }
 
 
-    /**
-     * second arm goes up by setting power on the arm motor
-     */
     public void ShooterMotor2Forward() {
-        this.ShooterMotor2.set(Constants.Subsystems.kPOWER);
+        this.ShooterMotor2.set(Constants.Subsystems.Shooter.kPOWER);
     }
 
-
-     /**
-     * second arm goes down by setting power on the arm motor
-     */
     public void ShooterMotor2Backward() {
-        this.ShooterMotor2.set(-Constants.Subsystems.kPOWER);
+        this.ShooterMotor2.set(-Constants.Subsystems.Shooter.kPOWER);
     }
 
-
-    /**
-     * calls stopMotor method within {@link edu.wpi.first.wpilibj.drive.DifferentialDrive}
-     * to stop second motors
-     */
     public void ShooterMotor2Stop() {
         this.ShooterMotor2.stopMotor();
     }
 
-    public void ShooterMotor1ForwardAuto(double n) {
-        this.ShooterMotor1.set(n);
+    public void ShooterMotor1ForwardAuto(double power) {
+        this.ShooterMotor1.set(power);
     }
 
-    public void ShooterMotor1BackwardAuto(double n) {
-        this.ShooterMotor1.set(-n);
+    public void ShooterMotor1BackwardAuto(double power) {
+        this.ShooterMotor1.set(-power);
     }
 
-    public void ShooterMotor2ForwardAuto(double n) {
-        this.ShooterMotor2.set(n);
+    public void ShooterMotor2ForwardAuto(double power) {
+        this.ShooterMotor2.set(power);
     }
 
-    public void ShooterMotor2BackwardAuto(double n) {
-        this.ShooterMotor2.set(-n);
+    public void ShooterMotor2BackwardAuto(double power) {
+        this.ShooterMotor2.set(-power);
     }
+
+    
+    public void ShooterMotor1ForwardWeaker() {
+        this.ShooterMotor1.set(0.2);
+    }
+
+    public void ShooterMotor2BackwardWeaker() {
+        this.ShooterMotor2.set(-0.2);
+    }
+
 }

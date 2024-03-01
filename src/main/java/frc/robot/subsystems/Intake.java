@@ -35,7 +35,7 @@ public class Intake extends SubsystemBase {
      * arm goes up by setting power on the arm motor
      */
     public void IntakeForward() {
-        this.Intake.set(Constants.Subsystems.kPOWER);
+        this.Intake.set(Constants.Subsystems.Intake.kPOWER);
     }
 
 
@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
      * second arm goes down by setting power on the arm motor
      */
     public void IntakeBackward() {
-        this.Intake.set(-Constants.Subsystems.kPOWER);
+        this.Intake.set(-Constants.Subsystems.Intake.kPOWER);
     }
 
 
@@ -55,16 +55,16 @@ public class Intake extends SubsystemBase {
         this.Intake.set(0);
     }
 
-    public void IntakeForwardAuto(double n) {
-        this.Intake.set(n);
+    public void IntakeForwardAuto(double power) {
+        this.Intake.set(power);
     }
 
 
      /**
      * second arm goes down by setting power on the arm motor
      */
-    public void IntakeBackwardAuto(double n) {
-        this.Intake.set(-n);
+    public void IntakeBackwardAuto(double power) {
+        this.Intake.set(-power);
     }
   
 }

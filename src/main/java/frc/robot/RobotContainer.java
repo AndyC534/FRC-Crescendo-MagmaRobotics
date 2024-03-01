@@ -33,6 +33,7 @@ import frc.robot.commands.lift.LiftStop;
 import frc.robot.commands.lift.LiftUp;
 import frc.robot.commands.shooter.ShooterBackward;
 import frc.robot.commands.shooter.ShooterForward;
+import frc.robot.commands.shooter.ShooterForwardWeak;
 import frc.robot.commands.shooter.ShooterStop;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
@@ -106,8 +107,9 @@ public class RobotContainer {
         // this.buttonA.onTrue(new IntakeForwardAuto(this.Intake, 1000, 0.5).andThen(new IntakeBackwardAuto(this.Intake, 1000, 0.5).andThen(new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)))).onFalse(new ParallelCommandGroup(new IntakeStop(this.Intake),new ShooterStop(this.Shooter)));
         this.upPOV.onTrue(new LiftUp(this.Lift)).onFalse(new LiftStop(this.Lift));
         this.downPOV.onTrue(new LiftDown(this.Lift)).onFalse(new LiftStop(this.Lift));
+        this.rightPOV.onTrue(new ShooterForwardWeak(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
 
-        this.driverRightBumper.onTrue(new DriveTrainCommandSlower(this.driveTrain, this.driverController)).onFalse(new DriveTrainCommand(this.driveTrain, this.driverController));
+        this.buttonA.onTrue(new DriveTrainCommandSlower(this.driveTrain, this.driverController)).onFalse(new DriveTrainCommand(this.driveTrain, this.driverController));
 
     }
 
@@ -137,7 +139,7 @@ public class RobotContainer {
             new IntakeForwardAuto(this.Intake, 1000, 0.5), 
             new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)));
 
-        m_auto_chooser.addOption("Center Shoot, Move", 
+        m_auto_chooser.addOption("Only Use This One Unless You Feel Adventurous", 
         new SequentialCommandGroup(
             new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5), 
             new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
@@ -146,7 +148,7 @@ public class RobotContainer {
             new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5))
             ));
 
-        m_auto_chooser.addOption("Left Shoot, Move", 
+        m_auto_chooser.addOption("Intesting left shoot", 
         new SequentialCommandGroup(
             new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5), 
             new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), 

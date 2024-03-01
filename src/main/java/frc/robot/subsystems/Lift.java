@@ -33,7 +33,7 @@ public class Lift extends SubsystemBase {
      * arm goes up by setting power on the arm motor
      */
     public void LiftUp() {
-        this.Lift.set(Constants.Subsystems.kPOWER);
+        this.Lift.set(Constants.Subsystems.Lift.kPOWER);
     }
 
 
@@ -41,7 +41,7 @@ public class Lift extends SubsystemBase {
      * second arm goes down by setting power on the arm motor
      */
     public void LiftDown() {
-        this.Lift.set(-Constants.Subsystems.kPOWER);
+        this.Lift.set(-Constants.Subsystems.Lift.kPOWER);
     }
 
 
