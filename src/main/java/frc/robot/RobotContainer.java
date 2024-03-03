@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -33,7 +34,8 @@ import frc.robot.commands.lift.LiftStop;
 import frc.robot.commands.lift.LiftUp;
 import frc.robot.commands.shooter.ShooterBackward;
 import frc.robot.commands.shooter.ShooterForward;
-import frc.robot.commands.shooter.ShooterForwardWeak;
+import frc.robot.commands.shooter.ShooterMid;
+import frc.robot.commands.shooter.ShooterWeak;
 import frc.robot.commands.shooter.ShooterStop;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
@@ -83,7 +85,7 @@ public class RobotContainer {
 
         SmartDashboard.putData(m_auto_chooser);
         
-        buildShuffleboard();
+        // buildShuffleboard();
         // Configure the trigger bindings
         this.configureBindings();
     }
@@ -107,9 +109,10 @@ public class RobotContainer {
         // this.buttonA.onTrue(new IntakeForwardAuto(this.Intake, 1000, 0.5).andThen(new IntakeBackwardAuto(this.Intake, 1000, 0.5).andThen(new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)))).onFalse(new ParallelCommandGroup(new IntakeStop(this.Intake),new ShooterStop(this.Shooter)));
         this.upPOV.onTrue(new LiftUp(this.Lift)).onFalse(new LiftStop(this.Lift));
         this.downPOV.onTrue(new LiftDown(this.Lift)).onFalse(new LiftStop(this.Lift));
-        this.rightPOV.onTrue(new ShooterForwardWeak(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
+        this.buttonA.onTrue(new ShooterWeak(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
+        this.buttonB.onTrue(new ShooterMid(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
 
-        this.buttonA.onTrue(new DriveTrainCommandSlower(this.driveTrain, this.driverController)).onFalse(new DriveTrainCommand(this.driveTrain, this.driverController));
+        this.driverRightBumper.onTrue(new DriveTrainCommandSlower(this.driveTrain, this.driverController)).onFalse(new DriveTrainCommand(this.driveTrain, this.driverController));
 
     }
 
@@ -120,62 +123,84 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return m_auto_chooser.getSelected();
+        return new SequentialCommandGroup(
+            new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5 ), 
+            new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
+            new ShooterStop(this.Shooter, this.Shooter)), 
+            new ParallelCommandGroup(new IntakeStop(this.Intake), 
+            new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5))
+            );
+
         // new SequentialCommandGroup(new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5), new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), new ShooterStop(this.Shooter, this.Shooter)), new ParallelCommandGroup(new IntakeStop(this.Intake), new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5)));
     }
     
-    private void buildShuffleboard(){
-        buildDriverTab();
-    }
+    // private void buildShuffleboard(){
+    //     buildDriverTab();
+    // }
     
-    private void buildDriverTab(){
-        ShuffleboardTab driveTab = Shuffleboard.getTab("Autos");
-        m_auto_chooser = new SendableChooser<Command>();
-        m_auto_chooser.setDefaultOption("Drive Past Line", new SequentialCommandGroup(
-            new DriveTrainAutoTimeBased(this.driveTrain, 10000, 0.5,0.5)));
+    // private void buildDriverTab(){
+    //     ShuffleboardTab driveTab = Shuffleboard.getTab("Autos");
+    //     m_auto_chooser = new SendableChooser<Command>();
 
-        m_auto_chooser.addOption("Center Shoot, No Move", 
-        new ParallelCommandGroup(
-            new IntakeForwardAuto(this.Intake, 1000, 0.5), 
-            new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)));
+    //     m_auto_chooser.setDefaultOption("Drive Past Line", new SequentialCommandGroup(
+    //         new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5,0.5)));
 
-        m_auto_chooser.addOption("Only Use This One Unless You Feel Adventurous", 
-        new SequentialCommandGroup(
-            new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5), 
-            new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
-            new ShooterStop(this.Shooter, this.Shooter)), 
-            new ParallelCommandGroup(new IntakeStop(this.Intake), 
-            new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5))
-            ));
+    //     m_auto_chooser.addOption("test- Side Shooter", 
+    //     new SequentialCommandGroup(
+    //         new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5), 
+    //         new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 400, 0.5), 
+    //         new ShooterStop(this.Shooter, this.Shooter)), 
+    //         new ParallelCommandGroup(new IntakeStop(this.Intake), 
+    //         new DriveTrainAutoTimeBased(this.driveTrain, 1000, 0.5, 0.5))
+    //         ));
+    //     // new ParallelCommandGroup(
+    //      //   new IntakeForwardAuto(this.Intake, 1000, 0.5), 
+    //        // new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)));
 
-        m_auto_chooser.addOption("Intesting left shoot", 
-        new SequentialCommandGroup(
-            new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5), 
-            new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
-            new ShooterStop(this.Shooter, this.Shooter)), 
-            new ParallelCommandGroup(new IntakeStop(this.Intake), 
-            new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5))
-            ));
+    //     m_auto_chooser.addOption("Only Use This One Unless You Feel Adventurous", 
+    //     new SequentialCommandGroup(
+    //         new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.6 ), 
+    //         new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
+    //         new ShooterStop(this.Shooter, this.Shooter)), 
+    //         new ParallelCommandGroup(new IntakeStop(this.Intake), 
+    //         new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5))
+    //         ));
+
+    //     m_auto_chooser.addOption("Intesting left shoot", 
+    //     new SequentialCommandGroup(
+    //         new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.6), 
+    //         new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
+    //         new ShooterStop(this.Shooter, this.Shooter).withTimeout(10),
+    //         new WaitCommand(10)),
+    //         new ParallelRaceGroup (new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5).withTimeout(2),
+    //         new WaitCommand(2)),
+    //         new WaitCommand(0.5), 
+    //         new ParallelRaceGroup (new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0, 0.5).withTimeout(2),
+    //         new WaitCommand(2)),
+    //         new WaitCommand(0.5),
+    //         new ParallelCommandGroup(new IntakeStop(this.Intake), 
+    //         new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5))
+    //         ));
     
-        m_auto_chooser.addOption("Center Shoot, Move, Pickup, Move, Shoot", 
-        new SequentialCommandGroup(
-            new ParallelCommandGroup(
-            new IntakeForwardAuto(this.Intake, 1000, 0.5), 
-            new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5))
-            ,
-            new DriveTrainAutoTimeBased(this.driveTrain, 5000, 0.5, 0.5),
-            new IntakeForwardAuto(this.Intake, 1000, 0.5), 
-            new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
-            new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5),
-            new DriveTrainAutoTimeBased(this.driveTrain, 5000, 0.5,0.5),
-            new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)));
+    //     m_auto_chooser.addOption("Center Shoot, Move, Pickup, Move, Shoot", 
+    //     new SequentialCommandGroup(
+    //         new ParallelCommandGroup(
+    //         new IntakeForwardAuto(this.Intake, 1000, 0.5), 
+    //         new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5))
+    //         ,
+    //         new DriveTrainAutoTimeBased(this.driveTrain, 5000, 0.5, 0.5),
+    //         new IntakeForwardAuto(this.Intake, 1000, 0.5), 
+    //         new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
+    //         new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5),
+    //         new DriveTrainAutoTimeBased(this.driveTrain, 5000, 0.5,0.5),
+    //         new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)));
 
-        m_auto_chooser.addOption("Pickup Sequence", 
-        new SequentialCommandGroup(
-            new IntakeForwardAuto(this.Intake, 1000, 0.5), 
-            new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
-            new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)));
-        driveTab.add("Autonomous Chooser", m_auto_chooser).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2, 1);
-    }
+    //     m_auto_chooser.addOption("Pickup Sequence", 
+    //     new SequentialCommandGroup(
+    //         new IntakeForwardAuto(this.Intake, 1000, 0.5), 
+    //         new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
+    //         new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)));
+    //     driveTab.add("Autonomous Chooser", m_auto_chooser).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2, 1);
+    // }
 
 }

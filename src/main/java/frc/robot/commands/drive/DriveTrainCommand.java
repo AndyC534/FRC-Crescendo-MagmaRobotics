@@ -39,8 +39,8 @@ public class DriveTrainCommand extends Command {
 
     public void execute() {
         this.driveTrain.diffDrive(
-            this.driveController.getRightY()*.7, 
-            this.driveController.getLeftY()*.7);     
+            this.driveController.getRightY()*.8, 
+            this.driveController.getLeftY()*.8);     
     }
     
 
