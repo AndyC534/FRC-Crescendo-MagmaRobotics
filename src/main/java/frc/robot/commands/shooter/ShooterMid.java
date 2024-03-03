@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 
-public class ShooterForwardWeak extends Command {
+public class ShooterMid extends Command {
 
 
     /**
@@ -15,7 +15,7 @@ public class ShooterForwardWeak extends Command {
     /**
      * @param Shooter an instance of {@link frc.robot.subsystems.ShooterMotor2}
      */
-    public ShooterForwardWeak(Shooter ShooterMotor1, Shooter ShooterMotor2) {
+    public ShooterMid(Shooter ShooterMotor1, Shooter ShooterMotor2) {
         this.ShooterMotor1 = ShooterMotor1;
         this.ShooterMotor2 = ShooterMotor2;
         addRequirements(ShooterMotor1);

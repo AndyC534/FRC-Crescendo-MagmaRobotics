@@ -81,14 +81,21 @@ public class Shooter extends SubsystemBase {
     public void ShooterMotor2BackwardAuto(double power) {
         this.ShooterMotor2.set(-power);
     }
-
     
+    public void ShooterMotor1ForwardMid() {
+        this.ShooterMotor1.set(0.6);
+    }
+
+    public void ShooterMotor2BackwardMid() {
+        this.ShooterMotor2.set(-0.6);
+    }
+
     public void ShooterMotor1ForwardWeaker() {
-        this.ShooterMotor1.set(0.2);
+        this.ShooterMotor1.set(0.5);
     }
 
     public void ShooterMotor2BackwardWeaker() {
-        this.ShooterMotor2.set(-0.2);
+        this.ShooterMotor2.set(-0.5);
     }
 
 }

@@ -61,8 +61,8 @@ public class Constants {
             public static final double kPOWER = 0.7;
         }
         public static class Shooter{
-            public static final double kPOWER = 1;
-            public static final double kPOWERWEAKER = 0.3;
+            public static final double kPOWER = 0.7;
+            public static final double kPOWERWEAKER = 0.5;
 
         }
         public static class Lift{
