@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,15 +18,19 @@ public class Lift extends SubsystemBase {
      */
     private CANSparkMax Lift;
 
+
   
     /**
      * subsystem base object for arm
      */
     public Lift() {
-        this.Lift = new CANSparkMax(13, MotorType.kBrushless);
+        this.Lift = new CANSparkMax(9, MotorType.kBrushless);
+        this.Lift.burnFlash();
+        this.Lift.restoreFactoryDefaults();
+    
+
         
     }
-
 
     /**
      * arm goes up by setting power on the arm motor

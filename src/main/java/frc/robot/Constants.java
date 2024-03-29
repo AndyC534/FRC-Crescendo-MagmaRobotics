@@ -61,7 +61,7 @@ public class Constants {
             public static final double kPOWER = 0.7;
         }
         public static class Shooter{
-            public static final double kPOWER = 0.7;
+            public static final double kPOWER = 0.9;
             public static final double kPOWERWEAKER = 0.5;
 
         }
@@ -69,6 +69,41 @@ public class Constants {
             public static final double kPOWER = 1;
         }
     }
+
+
+    public static final class ArmConstants {
+        public static int kLeftMotorPort = 5;
+        public static int kRightMotorPort = 6;
+    
+        
+    
+        // FeedForward Constants
+        public static double kSVolts = 0;
+        public static double kGVolts = 0;
+        public static double kVVoltSecondPerRad = 0;
+        public static double kAVoltSecondSquaredPerRad = 0;
+    
+        //TrapezoidProfile Constraints
+        public static double kMaxVelocityRadPerSecond = 3;
+        public static double kMaxAccelerationRadPerSecSquared = 3;
+    
+        //PID coefficients
+        public static double kP = .1; 
+        public static double kI = 0;
+        public static double kD = 0; 
+        public static double kIz = 0; 
+        public static double kFF = 10; 
+        public static double kMaxOutput = 1; 
+        public static double kMinOutput = -1;
+        public static double  maxRPM = 11000;
+        
+        // The offset of the arm from the horizontal in its neutral position,
+        // measured from the horizontal
+        public static double kSpeaker = .7;
+        public static double kAmp = .78;
+        public static double kHome = 0;
+      }
+    
 
 
 }

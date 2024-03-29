@@ -24,9 +24,10 @@ public class Shooter extends SubsystemBase {
      * subsystem base object for arm
      */
     public Shooter() {
-        this.ShooterMotor1 = new CANSparkMax(10, MotorType.kBrushless);
-        this.ShooterMotor2 = new CANSparkMax(11, MotorType.kBrushless);
-        
+        this.ShooterMotor1 = new CANSparkMax(7, MotorType.kBrushless);
+        this.ShooterMotor2 = new CANSparkMax(8, MotorType.kBrushless);
+        this.ShooterMotor1.burnFlash();
+        this.ShooterMotor2.burnFlash();
     }
 
 

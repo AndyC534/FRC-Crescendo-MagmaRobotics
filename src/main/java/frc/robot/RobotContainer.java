@@ -37,6 +37,7 @@ import frc.robot.commands.shooter.ShooterForward;
 import frc.robot.commands.shooter.ShooterMid;
 import frc.robot.commands.shooter.ShooterWeak;
 import frc.robot.commands.shooter.ShooterStop;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
@@ -56,11 +57,13 @@ public class RobotContainer {
     Shooter Shooter = new Shooter();
     Intake Intake = new Intake();
     Lift Lift = new Lift();
+    ArmSubsystem m_robotArm = new ArmSubsystem();
+
     
     SendableChooser<Command> m_auto_chooser = new SendableChooser<>();
 
     XboxController driverController, driverPartnerController;
-    JoystickButton buttonA, buttonB, buttonX, buttonY, rightBumper, leftBumper, driverRightBumper;
+    JoystickButton buttonA, buttonB, buttonX, buttonY, rightBumper, leftBumper, driverRightBumper, driverButtonA, driverButtonB;
     POVButton upPOV, downPOV, leftPOV, rightPOV;
     
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -69,6 +72,9 @@ public class RobotContainer {
         this.driverPartnerController = new XboxController(Constants.Control.ControllerPort.kPARTNER);
         
         this.driverRightBumper = new JoystickButton(driverController, Constants.Control.Button.kRIGHT_BUMPER);
+        this.driverButtonA = new JoystickButton(driverController, Constants.Control.Button.kA);
+        this.driverButtonB = new JoystickButton(driverController, Constants.Control.Button.kB);
+        
 
         this.buttonA = new JoystickButton(driverPartnerController, Constants.Control.Button.kA);
         this.buttonB = new JoystickButton(driverPartnerController, Constants.Control.Button.kB);
@@ -111,8 +117,12 @@ public class RobotContainer {
         this.downPOV.onTrue(new LiftDown(this.Lift)).onFalse(new LiftStop(this.Lift));
         this.buttonA.onTrue(new ShooterWeak(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
         this.buttonB.onTrue(new ShooterMid(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
-
         this.driverRightBumper.onTrue(new DriveTrainCommandSlower(this.driveTrain, this.driverController)).onFalse(new DriveTrainCommand(this.driveTrain, this.driverController));
+        driverButtonA.onTrue(m_robotArm.setArmGoalCommand(Constants.ArmConstants.kHome));
+
+        // Move the arm to neutral position when the 'B' button is pressed.
+        driverButtonB.onTrue(m_robotArm.setArmGoalCommand(Constants.ArmConstants.kSpeaker));
+    
 
     }
 
@@ -125,7 +135,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         return new SequentialCommandGroup(
             new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5 ), 
-            new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), 
+            new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 2000, 0.5), 
             new ShooterStop(this.Shooter, this.Shooter)), 
             new ParallelCommandGroup(new IntakeStop(this.Intake), 
             new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5))

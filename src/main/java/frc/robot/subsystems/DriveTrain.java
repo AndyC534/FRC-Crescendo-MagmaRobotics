@@ -4,15 +4,11 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.lang.Math;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class DriveTrain extends SubsystemBase {
@@ -27,21 +23,8 @@ public class DriveTrain extends SubsystemBase {
     private CANSparkMax frontRightDriveMotor;
     private CANSparkMax rearRightDriveMotor;
 
-    private RelativeEncoder frontLeftDriveMotorEncoder;
-    private RelativeEncoder rearLeftDriveMotorEncoder;
-    private RelativeEncoder frontRightDriveMotorEncoder;
-    private RelativeEncoder rearRightDriveMotorEncoder;
-
-    // double kP = 0.1; 
-    // double kI = 1e-4;
-    // double kD = 1; 
-    // double kIz = 0; 
-    // double kFF = 0; 
-    // double kMaxOutput = 1; 
-    // double kMinOutput = -1;
 
     private DifferentialDrive diffDrive;
-    // private SparkPIDController pidController;    
 
 
     public DriveTrain() {
@@ -51,10 +34,6 @@ public class DriveTrain extends SubsystemBase {
         this.frontRightDriveMotor = new CANSparkMax(3, MotorType.kBrushless);
         this.rearRightDriveMotor = new CANSparkMax(4, MotorType.kBrushless);
 
-        this.frontLeftDriveMotorEncoder = this.frontLeftDriveMotor.getEncoder();
-        this.rearLeftDriveMotorEncoder = this.rearLeftDriveMotor.getEncoder();
-        this.frontRightDriveMotorEncoder = this.frontRightDriveMotor.getEncoder();
-        this.rearRightDriveMotorEncoder = this.rearRightDriveMotor.getEncoder();
 
         this.frontLeftDriveMotor.restoreFactoryDefaults();
         this.rearLeftDriveMotor.restoreFactoryDefaults();
@@ -68,20 +47,8 @@ public class DriveTrain extends SubsystemBase {
         this.rearLeftDriveMotor.burnFlash();
         this.frontRightDriveMotor.burnFlash();
         this.rearRightDriveMotor.burnFlash();
-
-        
-        // pidController = frontLeftDriveMotor.getPIDController();
-        // pidController.setP(kP);
-        // pidController.setI(kI);
-        // pidController.setD(kD);
-        // pidController.setIZone(kIz);
-        // pidController.setFF(kFF);
-        // pidController.setOutputRange(kMinOutput, kMaxOutput);
     
         this.diffDrive = new DifferentialDrive(this.frontLeftDriveMotor, this.frontRightDriveMotor);
-        SmartDashboard.putData(diffDrive);
-        this.frontLeftDriveMotorEncoder.setPosition(0);
-        SmartDashboard.putNumber("get position", this.frontLeftDriveMotorEncoder.getPosition());
 
 
     }
@@ -139,8 +106,6 @@ public class DriveTrain extends SubsystemBase {
      */
     public void diffDrive(double leftJoystick, double rightJoystick) {
         this.diffDrive.tankDrive(leftJoystick, -rightJoystick);
-        SmartDashboard.putNumber("get position", this.frontLeftDriveMotorEncoder.getPosition());
-        SmartDashboard.putNumber("get cpr", this.frontLeftDriveMotorEncoder.getCountsPerRevolution());
     }
 
 
