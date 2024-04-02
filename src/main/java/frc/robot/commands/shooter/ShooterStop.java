@@ -10,16 +10,14 @@ public class ShooterStop extends Command {
     /**
      * an instance of {@link frc.robot.subsystems.Shooter}
      */
-    private final Shooter ShooterMotor1, ShooterMotor2;
+    private final Shooter ShooterMotor1;
 
     /**
      * @param ShooterMotor1 an instance of {@link frc.robot.subsystems.Shooter}
      */
-    public ShooterStop(Shooter ShooterMotor1, Shooter ShooterMotor2) {
+    public ShooterStop(Shooter ShooterMotor1) {
         this.ShooterMotor1 = ShooterMotor1;
-        this.ShooterMotor2 = ShooterMotor2;
         addRequirements(ShooterMotor1);
-        addRequirements(ShooterMotor2);
     }
 
 
@@ -34,7 +32,6 @@ public class ShooterStop extends Command {
     @Override
     public void execute() {
         this.ShooterMotor1.ShooterMotor1Stop();
-        this.ShooterMotor2.ShooterMotor2Stop();
     }
 
 

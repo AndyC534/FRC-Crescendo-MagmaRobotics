@@ -5,9 +5,7 @@
 package frc.robot.commands.autos.complex;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.autos.simples.DriveTrainAutoTimeBased;
 import frc.robot.commands.autos.simples.IntakeForwardAuto;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 
 /** A complex auto command that drives forward, releases a hatch, and then drives backward. */

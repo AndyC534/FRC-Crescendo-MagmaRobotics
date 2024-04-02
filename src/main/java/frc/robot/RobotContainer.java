@@ -20,27 +20,33 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.autos.complex.Complex;
+import frc.robot.commands.autos.simples.DriveForward;
 import frc.robot.commands.autos.simples.DriveTrainAutoTimeBased;
+import frc.robot.commands.autos.simples.IndexerForwardAuto;
 import frc.robot.commands.autos.simples.IntakeBackwardAuto;
 import frc.robot.commands.autos.simples.IntakeForwardAuto;
+import frc.robot.commands.autos.simples.Rotate180;
+import frc.robot.commands.autos.simples.Rotate270;
+import frc.robot.commands.autos.simples.Rotate90;
+import frc.robot.commands.autos.simples.ShooterBackwardAuto;
 import frc.robot.commands.autos.simples.ShooterForwardAuto;
 import frc.robot.commands.drive.DriveTrainCommand;
 import frc.robot.commands.drive.DriveTrainCommandSlower;
+import frc.robot.commands.indexer.IndexerBackward;
+import frc.robot.commands.indexer.IndexerForward;
+import frc.robot.commands.indexer.IndexerStop;
 import frc.robot.commands.intake.IntakeBackward;
 import frc.robot.commands.intake.IntakeForward;
 import frc.robot.commands.intake.IntakeStop;
-import frc.robot.commands.lift.LiftDown;
-import frc.robot.commands.lift.LiftStop;
-import frc.robot.commands.lift.LiftUp;
 import frc.robot.commands.shooter.ShooterBackward;
 import frc.robot.commands.shooter.ShooterForward;
 import frc.robot.commands.shooter.ShooterMid;
 import frc.robot.commands.shooter.ShooterWeak;
 import frc.robot.commands.shooter.ShooterStop;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Rotator;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 
 
@@ -56,8 +62,8 @@ public class RobotContainer {
     DriveTrain driveTrain = new DriveTrain();
     Shooter Shooter = new Shooter();
     Intake Intake = new Intake();
-    Lift Lift = new Lift();
-    ArmSubsystem m_robotArm = new ArmSubsystem();
+    Indexer Indexer = new Indexer();
+    Rotator Rotator = new Rotator();
 
     
     SendableChooser<Command> m_auto_chooser = new SendableChooser<>();
@@ -108,20 +114,20 @@ public class RobotContainer {
      */
     private void configureBindings() {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        this.buttonY.onTrue(new ShooterForward(this.Shooter,this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
-        this.buttonX.onTrue(new ShooterBackward(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
+        this.buttonY.onTrue(new ShooterForward(this.Shooter)).onFalse(new ShooterStop(this.Shooter));
+        this.buttonX.onTrue(new ShooterBackward(this.Shooter)).onFalse(new ShooterStop(this.Shooter));
         this.rightBumper.onTrue(new IntakeForward(this.Intake)).onFalse(new IntakeStop(this.Intake));
         this.leftBumper.onTrue(new IntakeBackward(this.Intake)).onFalse(new IntakeStop(this.Intake));
         // this.buttonA.onTrue(new IntakeForwardAuto(this.Intake, 1000, 0.5).andThen(new IntakeBackwardAuto(this.Intake, 1000, 0.5).andThen(new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5)))).onFalse(new ParallelCommandGroup(new IntakeStop(this.Intake),new ShooterStop(this.Shooter)));
-        this.upPOV.onTrue(new LiftUp(this.Lift)).onFalse(new LiftStop(this.Lift));
-        this.downPOV.onTrue(new LiftDown(this.Lift)).onFalse(new LiftStop(this.Lift));
-        this.buttonA.onTrue(new ShooterWeak(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
-        this.buttonB.onTrue(new ShooterMid(this.Shooter, this.Shooter)).onFalse(new ShooterStop(this.Shooter, this.Shooter));
+        this.upPOV.onTrue(new IndexerForward(this.Indexer)).onFalse(new IndexerStop(this.Indexer));
+        this.downPOV.onTrue(new IndexerBackward(this.Indexer)).onFalse(new IndexerStop(this.Indexer));
+        this.buttonA.onTrue(new ShooterWeak(this.Shooter)).onFalse(new ShooterStop(this.Shooter));
+        this.buttonB.onTrue(new ShooterMid(this.Shooter)).onFalse(new ShooterStop(this.Shooter));
         this.driverRightBumper.onTrue(new DriveTrainCommandSlower(this.driveTrain, this.driverController)).onFalse(new DriveTrainCommand(this.driveTrain, this.driverController));
-        driverButtonA.onTrue(m_robotArm.setArmGoalCommand(Constants.ArmConstants.kHome));
+        this.driverButtonA.onTrue(Rotator.setArmGoalCommand(Constants.ArmConstants.kHome));
 
         // Move the arm to neutral position when the 'B' button is pressed.
-        driverButtonB.onTrue(m_robotArm.setArmGoalCommand(Constants.ArmConstants.kSpeaker));
+        this.driverButtonB.onTrue(Rotator.setArmGoalCommand(Constants.ArmConstants.kSpeaker));
     
 
     }
@@ -133,15 +139,27 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new SequentialCommandGroup(
-            new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5 ), 
-            new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 2000, 0.5), 
-            new ShooterStop(this.Shooter, this.Shooter)), 
-            new ParallelCommandGroup(new IntakeStop(this.Intake), 
-            new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5))
+        return
+        new SequentialCommandGroup(
+            Rotator.setArmGoalCommand(Constants.ArmConstants.kSpeaker), 
+            new ShooterForwardAuto(this.Shooter, 3000, 1),
+            new IndexerForwardAuto(this.Indexer, 1000, 1),
+            Rotator.setArmGoalCommand(Constants.ArmConstants.kHome),
+            new DriveForward(this.driveTrain, 3, -0.4),
+            new Rotate90(this.driveTrain, 0.7),
+            new DriveForward(this.driveTrain, 3, 0.4),
+            new IntakeForwardAuto(this.Intake, 1000, 0.7),
+            new ShooterBackwardAuto(this.Shooter, 1000, 0.7),
+            new DriveForward(this.driveTrain, 3, -0.4),
+            new Rotate270(this.driveTrain, 0.7),
+            new DriveForward(this.driveTrain, 3, 0.4),
+            Rotator.setArmGoalCommand(Constants.ArmConstants.kSpeaker), 
+            new ShooterForwardAuto(this.Shooter, 3000, 1),
+            new IndexerForwardAuto(this.Indexer, 1000, 1),
+            Rotator.setArmGoalCommand(Constants.ArmConstants.kHome)
             );
-
-        // new SequentialCommandGroup(new ShooterForwardAuto(this.Shooter, this.Shooter, 3000, 0.5), new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 1000, 0.5), new ShooterStop(this.Shooter, this.Shooter)), new ParallelCommandGroup(new IntakeStop(this.Intake), new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5, 0.5)));
+    //for driveforward botspeed to 0.4
+    //for rotates botspeed to 0.7
     }
     
     // private void buildShuffleboard(){
@@ -153,15 +171,26 @@ public class RobotContainer {
     //     m_auto_chooser = new SendableChooser<Command>();
 
     //     m_auto_chooser.setDefaultOption("Drive Past Line", new SequentialCommandGroup(
-    //         new DriveTrainAutoTimeBased(this.driveTrain, 1500, 0.5,0.5)));
+    //         new DriveForward(this.driveTrain, 6, 0.4)));
 
-    //     m_auto_chooser.addOption("test- Side Shooter", 
+    //     m_auto_chooser.addOption("Red Right Side From Driver Shooter", 
     //     new SequentialCommandGroup(
-    //         new ShooterForwardAuto(this.Shooter, this.Shooter, 1000, 0.5), 
-    //         new ParallelRaceGroup(new IntakeBackwardAuto(this.Intake, 400, 0.5), 
-    //         new ShooterStop(this.Shooter, this.Shooter)), 
-    //         new ParallelCommandGroup(new IntakeStop(this.Intake), 
-    //         new DriveTrainAutoTimeBased(this.driveTrain, 1000, 0.5, 0.5))
+    //         Rotator.setArmGoalCommand(Constants.ArmConstants.kSpeaker), 
+    //         new ShooterForwardAuto(this.Shooter, 3000, 1),
+    //         new IndexerForwardAuto(this.Indexer, 1000, 1),
+    //         Rotator.setArmGoalCommand(Constants.ArmConstants.kHome),
+    //         new DriveForward(this.driveTrain, 3, -0.4),
+    //         new Rotate90(this.driveTrain, 0.3),
+    //         new DriveForward(this.driveTrain, 3, 0.4),
+    //         new IntakeForwardAuto(this.Intake, 1000, 0.7),
+    //         new ShooterBackwardAuto(this.Shooter, 1000, 0.7),
+    //         new DriveForward(this.driveTrain, 3, -0.4),
+    //         new Rotate270(this.driveTrain, 0.3),
+    //         new DriveForward(this.driveTrain, 3, 0.4),
+    //         Rotator.setArmGoalCommand(Constants.ArmConstants.kSpeaker), 
+    //         new ShooterForwardAuto(this.Shooter, 3000, 1),
+    //         new IndexerForwardAuto(this.Indexer, 1000, 1),
+    //         Rotator.setArmGoalCommand(Constants.ArmConstants.kHome)
     //         ));
     //     // new ParallelCommandGroup(
     //      //   new IntakeForwardAuto(this.Intake, 1000, 0.5), 

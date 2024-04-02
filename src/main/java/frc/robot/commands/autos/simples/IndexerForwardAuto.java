@@ -1,21 +1,21 @@
 package frc.robot.commands.autos.simples;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Indexer;
 
 
-public class LiftDownAuto extends Command {
+public class IndexerForwardAuto extends Command {
 
 
     private double power, duration;
-    private Lift Lift;
+    private Indexer Indexer;
 
 
-    public LiftDownAuto(Lift Lift, double duration, double power) {
-        this.Lift = Lift;
+    public IndexerForwardAuto(Indexer Indexer, double duration, double power) {
+        this.Indexer = Indexer;
         this.duration = duration;
         this.power = power;
-        addRequirements(Lift);
+        addRequirements(Indexer);
     }
 
 
@@ -29,7 +29,7 @@ public class LiftDownAuto extends Command {
 
     // called repeatedly when this Command is scheduled to run
     public void execute() {
-        this.Lift.LiftDownAuto(this.power);
+        this.Indexer.IndexerBackwardAuto(this.power);
     }
 
 
@@ -43,7 +43,7 @@ public class LiftDownAuto extends Command {
     // called once after isFinished returns true
     // drive train is stopped
     protected void end() {
-        this.Lift.LiftStop();
+        this.Indexer.IndexerStop();
     }
 
 

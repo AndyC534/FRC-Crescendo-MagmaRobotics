@@ -23,6 +23,6 @@ public class Sequence extends SequentialCommandGroup {
     addCommands(
             new IntakeForwardAuto(Intake, 1000, 0.5), 
             new IntakeBackwardAuto(Intake, 1000, 0.5), 
-            new ShooterForwardAuto(Shooter, Shooter, 1000, 0.5));
+            new ShooterForwardAuto(Shooter, 1000, 0.5));
 }
 }

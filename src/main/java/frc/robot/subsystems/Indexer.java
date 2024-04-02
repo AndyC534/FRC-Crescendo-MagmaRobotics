@@ -10,23 +10,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 
-public class Lift extends SubsystemBase {
+public class Indexer extends SubsystemBase {
 
 
     /**
      * an abstract representation of a physical robot arm
      */
-    private CANSparkMax Lift;
+    private CANSparkMax Indexer;
 
 
   
     /**
      * subsystem base object for arm
      */
-    public Lift() {
-        this.Lift = new CANSparkMax(9, MotorType.kBrushless);
-        this.Lift.burnFlash();
-        this.Lift.restoreFactoryDefaults();
+    public Indexer() {
+        this.Indexer = new CANSparkMax(9, MotorType.kBrushless);
+        this.Indexer.burnFlash();
+        this.Indexer.restoreFactoryDefaults();
     
 
         
@@ -35,16 +35,16 @@ public class Lift extends SubsystemBase {
     /**
      * arm goes up by setting power on the arm motor
      */
-    public void LiftUp() {
-        this.Lift.set(Constants.Subsystems.Lift.kPOWER);
+    public void IntakeForward() {
+        this.Indexer.set(Constants.Subsystems.Indexer.kPOWER);
     }
 
 
      /**
      * second arm goes down by setting power on the arm motor
      */
-    public void LiftDown() {
-        this.Lift.set(-Constants.Subsystems.Lift.kPOWER);
+    public void IntakeBackward() {
+        this.Indexer.set(-Constants.Subsystems.Indexer.kPOWER);
     }
 
 
@@ -52,20 +52,20 @@ public class Lift extends SubsystemBase {
      * calls stopMotor method within {@link edu.wpi.first.wpilibj.drive.DifferentialDrive}
      * to stop second motors
      */
-    public void LiftStop() {
-        this.Lift.stopMotor();
+    public void IndexerStop() {
+        this.Indexer.stopMotor();
     }
 
-    public void LiftUpAuto(double power) {
-        this.Lift.set(power);
+    public void IndexerForwardAuto(double power) {
+        this.Indexer.set(power);
     }
 
 
      /**
      * second arm goes down by setting power on the arm motor
      */
-    public void LiftDownAuto(double power) {
-        this.Lift.set(-power);
+    public void IndexerBackwardAuto(double power) {
+        this.Indexer.set(-power);
     }
   
 }

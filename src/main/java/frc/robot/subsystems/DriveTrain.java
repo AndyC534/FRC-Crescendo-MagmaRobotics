@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.lang.Math;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class DriveTrain extends SubsystemBase {
@@ -22,7 +24,12 @@ public class DriveTrain extends SubsystemBase {
     private CANSparkMax rearLeftDriveMotor;
     private CANSparkMax frontRightDriveMotor;
     private CANSparkMax rearRightDriveMotor;
+    
+    private RelativeEncoder frontLeftDriveMotorEncoder;
+    private RelativeEncoder frontRightDriveMotorEncoder;
 
+    private SparkPIDController frontLeftDriveMotorPIDController;
+    private SparkPIDController frontRightDriveMotorPIDController;
 
     private DifferentialDrive diffDrive;
 
@@ -42,7 +49,16 @@ public class DriveTrain extends SubsystemBase {
 
         rearRightDriveMotor.follow(frontRightDriveMotor);
         rearLeftDriveMotor.follow(frontLeftDriveMotor);
-        
+    
+        frontLeftDriveMotorEncoder = frontLeftDriveMotor.getEncoder();
+        frontRightDriveMotorEncoder = frontRightDriveMotor.getEncoder();
+
+        frontLeftDriveMotorPIDController = frontLeftDriveMotor.getPIDController();
+        frontRightDriveMotorPIDController = frontRightDriveMotor.getPIDController();
+
+        frontLeftDriveMotorEncoder.setPositionConversionFactor(.039);
+        frontRightDriveMotorEncoder.setPositionConversionFactor(.039);
+
         this.frontLeftDriveMotor.burnFlash();
         this.rearLeftDriveMotor.burnFlash();
         this.frontRightDriveMotor.burnFlash();
@@ -52,15 +68,6 @@ public class DriveTrain extends SubsystemBase {
 
 
     }
-
-    /**
-     * calls stopMotor method within {@link edu.wpi.first.wpilibj.drive.DifferentialDrive}
-     * to stop motors
-     */
-    public void stop() {
-        this.diffDrive.stopMotor();
-    }
-
 
     /**
      * scales value ranging from -1 to 1 to 0 to 1
@@ -107,6 +114,27 @@ public class DriveTrain extends SubsystemBase {
     public void diffDrive(double leftJoystick, double rightJoystick) {
         this.diffDrive.tankDrive(leftJoystick, -rightJoystick);
     }
+    public void resetEncoders(){
+        frontLeftDriveMotorEncoder.setPosition(0);
+        frontRightDriveMotorEncoder.setPosition(0);
+    }
+      
+    
+    public double getLeftEncoderPos() {
+        return frontLeftDriveMotorEncoder.getPosition();
+    }
+      
+    public double getRightEncoderPos() {
+        return frontRightDriveMotorEncoder.getPosition();
+    }
+    
+    public void stop() {
+        frontLeftDriveMotor.stopMotor();
+        rearLeftDriveMotor.stopMotor();
+        frontRightDriveMotor.stopMotor();
+        rearRightDriveMotor.stopMotor();    
+    }
 
+    
 
 }

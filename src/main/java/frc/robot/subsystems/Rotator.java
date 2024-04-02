@@ -20,7 +20,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.SparkRelativeEncoder;
 
 /** A robot arm subsystem that moves with a motion profile. */
-public class ArmSubsystem extends TrapezoidProfileSubsystem {
+public class Rotator extends TrapezoidProfileSubsystem {
   private final CANSparkMax m_leftmotor =
       new CANSparkMax(Constants.ArmConstants.kLeftMotorPort,MotorType.kBrushless);
   
@@ -31,7 +31,9 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem {
       new ArmFeedforward(
           Constants.ArmConstants.kSVolts, Constants.ArmConstants.kGVolts,
           Constants.ArmConstants.kVVoltSecondPerRad, Constants.ArmConstants.kAVoltSecondSquaredPerRad);
+  
   public SparkPIDController m_pidController;
+
   private final RelativeEncoder m_leftencoder = 
       m_leftmotor.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
       
@@ -39,7 +41,7 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem {
 
 
   /** Create a new ArmSubsystem. */
-  public ArmSubsystem() {
+  public Rotator() {
     super(
         new TrapezoidProfile.Constraints(
             Constants.ArmConstants.kMaxVelocityRadPerSecond, Constants.ArmConstants.kMaxAccelerationRadPerSecSquared)

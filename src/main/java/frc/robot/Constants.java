@@ -65,7 +65,7 @@ public class Constants {
             public static final double kPOWERWEAKER = 0.5;
 
         }
-        public static class Lift{
+        public static class Indexer{
             public static final double kPOWER = 1;
         }
     }

@@ -10,16 +10,14 @@ public class ShooterWeak extends Command {
     /**
      * an instance of {@link frc.robot.subsystems.ShooterMotor2}
      */
-    private final Shooter ShooterMotor1, ShooterMotor2;
+    private final Shooter ShooterMotor1;
 
     /**
      * @param Shooter an instance of {@link frc.robot.subsystems.ShooterMotor2}
      */
-    public ShooterWeak(Shooter ShooterMotor1, Shooter ShooterMotor2) {
+    public ShooterWeak(Shooter ShooterMotor1) {
         this.ShooterMotor1 = ShooterMotor1;
-        this.ShooterMotor2 = ShooterMotor2;
         addRequirements(ShooterMotor1);
-        addRequirements(ShooterMotor2);
     }
 
 
@@ -34,7 +32,6 @@ public class ShooterWeak extends Command {
     @Override
     public void execute() {
         this.ShooterMotor1.ShooterMotor1ForwardMid();
-        this.ShooterMotor2.ShooterMotor2BackwardMid();
     }
 
 
